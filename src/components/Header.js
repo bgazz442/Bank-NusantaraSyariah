@@ -40,7 +40,13 @@ const Header = () => {
 
   return (
     <nav className="navbar">
-      <div className={`nav-container ${isDropdownOpen ? 'more-open' : ''}`}>
+      {(isMenuOpen || isDropdownOpen) && (
+        <div
+          className="nav-overlay"
+          onClick={() => { closeMenu(); closeDropdown(); }}
+        />
+      )}
+      <div className="nav-container">
         {/* LOGO */}
         <Link to="/" className="nav-logo-link">
           <img src="/images/logo-bank-nusantara-transparent.png" alt="Bank Nusantara Syariah Logo" className="nav-logo-img" />
@@ -62,22 +68,22 @@ const Header = () => {
               {item.name}
             </Link>
           ))}
-        </div>
 
-        {/* MORE DROPDOWN */}
-        <div className="dropdown">
-          <button onClick={toggleDropdown} className="more-button">
-            More
-          </button>
-          <ul className={`dropdown-menu ${isDropdownOpen ? 'show' : ''}`}>
-            {moreMenu.map((item, i) => (
-              <li key={i}>
-                <Link to={item.href} onClick={closeDropdown}>
-                  {item.name}
-                </Link>
-              </li>
-            ))}
-          </ul>
+          {/* MORE DROPDOWN */}
+          <div className={`dropdown ${isDropdownOpen ? 'open' : ''}`}>
+            <button onClick={toggleDropdown} className="more-button">
+              More
+            </button>
+            <ul className={`dropdown-menu ${isDropdownOpen ? 'show' : ''}`}>
+              {moreMenu.map((item, i) => (
+                <li key={i}>
+                  <Link to={item.href} onClick={() => { closeDropdown(); closeMenu(); }}>
+                    {item.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
 
         {/* HAMBURGER MENU */}
